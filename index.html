@@ -307,9 +307,18 @@ let S={
   third:{t1:null,c1:'',t2:null,c2:'',date:'Sáb 18 Jul',s1:null,s2:null,w:null},
 };
 
+const EMOJI_FLAGS={
+  'ca':'🇨🇦','br':'🇧🇷','de':'🇩🇪','nl':'🇳🇱','ci':'🇨🇮','no':'🇳🇴',
+  'fr':'🇫🇷','se':'🇸🇪','mx':'🇲🇽','ec':'🇪🇨','gb-eng':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','cd':'🇨🇩',
+  'be':'🇧🇪','sn':'🇸🇳','us':'🇺🇸','ba':'🇧🇦','es':'🇪🇸','at':'🇦🇹',
+  'pt':'🇵🇹','hr':'🇭🇷','ch':'🇨🇭','dz':'🇩🇿','au':'🇦🇺','eg':'🇪🇬',
+  'ar':'🇦🇷','cv':'🇨🇻','co':'🇨🇴','gh':'🇬🇭','za':'🇿🇦','jp':'🇯🇵',
+  'py':'🇵🇾','ma':'🇲🇦'
+};
 function fl(code,w=20,h=14){
-  if(!code||code==='') return `<div style="width:${w}px;height:${h}px;background:var(--dark2);border-radius:2px;flex-shrink:0"></div>`;
-  return `<img class="mf" style="width:${w}px;height:${h}px" src="https://flagcdn.com/${w}x${h}/${code.toLowerCase()}.png" alt="" onerror="this.style.opacity='0'">`;
+  if(!code||code==='') return `<span style="font-size:1rem;line-height:1;flex-shrink:0">⬜</span>`;
+  const em=EMOJI_FLAGS[code.toLowerCase()];
+  return `<span style="font-size:${w>=20?'1.1rem':'0.9rem'};line-height:1;flex-shrink:0">${em||'🏳️'}</span>`;
 }
 
 function owner(name){
