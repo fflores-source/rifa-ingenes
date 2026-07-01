@@ -307,18 +307,23 @@ let S={
   third:{t1:null,c1:'',t2:null,c2:'',date:'Sáb 18 Jul',s1:null,s2:null,w:null},
 };
 
-const EMOJI_FLAGS={
-  'ca':'🇨🇦','br':'🇧🇷','de':'🇩🇪','nl':'🇳🇱','ci':'🇨🇮','no':'🇳🇴',
-  'fr':'🇫🇷','se':'🇸🇪','mx':'🇲🇽','ec':'🇪🇨','gb-eng':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','cd':'🇨🇩',
-  'be':'🇧🇪','sn':'🇸🇳','us':'🇺🇸','ba':'🇧🇦','es':'🇪🇸','at':'🇦🇹',
-  'pt':'🇵🇹','hr':'🇭🇷','ch':'🇨🇭','dz':'🇩🇿','au':'🇦🇺','eg':'🇪🇬',
-  'ar':'🇦🇷','cv':'🇨🇻','co':'🇨🇴','gh':'🇬🇭','za':'🇿🇦','jp':'🇯🇵',
-  'py':'🇵🇾','ma':'🇲🇦'
+// Twemoji CDN URLs por código de país
+const TWEMOJI={
+  'ca':'1f1e8-1f1e6','br':'1f1e7-1f1f7','de':'1f1e9-1f1ea','nl':'1f1f3-1f1f1',
+  'ci':'1f1e8-1f1ee','no':'1f1f3-1f1f4','fr':'1f1eb-1f1f7','se':'1f1f8-1f1ea',
+  'mx':'1f1f2-1f1fd','ec':'1f1ea-1f1e8','cd':'1f1e8-1f1e9','be':'1f1e7-1f1ea',
+  'sn':'1f1f8-1f1f3','us':'1f1fa-1f1f8','ba':'1f1e7-1f1e6','es':'1f1ea-1f1f8',
+  'at':'1f1e6-1f1f9','pt':'1f1f5-1f1f9','hr':'1f1ed-1f1f7','ch':'1f1e8-1f1ed',
+  'dz':'1f1e9-1f1ff','au':'1f1e6-1f1fa','eg':'1f1ea-1f1ec','ar':'1f1e6-1f1f7',
+  'cv':'1f1e8-1f1fb','co':'1f1e8-1f1f4','gh':'1f1ec-1f1ed','za':'1f1ff-1f1e6',
+  'jp':'1f1ef-1f1f5','py':'1f1f5-1f1fe','ma':'1f1f2-1f1e6',
+  'gb-eng':'1f3f4-e0067-e0062-e0065-e006e-e0067-e007f'
 };
-function fl(code,w=20,h=14){
-  if(!code||code==='') return `<span style="font-size:1rem;line-height:1;flex-shrink:0">⬜</span>`;
-  const em=EMOJI_FLAGS[code.toLowerCase()];
-  return `<span style="font-size:${w>=20?'1.1rem':'0.9rem'};line-height:1;flex-shrink:0">${em||'🏳️'}</span>`;
+function fl(code,size=20){
+  if(!code||code==='') return `<span style="display:inline-block;width:${size}px;height:${Math.round(size*0.75)}px;background:var(--dark2);border-radius:2px;flex-shrink:0"></span>`;
+  const tw=TWEMOJI[code.toLowerCase()];
+  if(!tw) return `<span style="display:inline-block;width:${size}px;height:${Math.round(size*0.75)}px;background:var(--dark2);border-radius:2px;flex-shrink:0"></span>`;
+  return `<img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${tw}.svg" style="width:${size}px;height:${Math.round(size*0.75)}px;border-radius:2px;object-fit:cover;flex-shrink:0;display:inline-block" alt="${code}" onerror="this.style.opacity='0.3'">`;
 }
 
 function owner(name){
