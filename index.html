@@ -255,43 +255,53 @@ const PW='ingenes2026B';
 // Bracket structure: each R32 pair feeds into 1 R16 slot
 // Pairs verified from official FIFA bracket
 const R32 = [
-  // Pair 0 → QF[0]: Canadá/Sudáfrica vs Brasil/Japón
+  // Pair 0 → Octavo: Canadá vs Marruecos (Sáb 4 Jul)
   [{t1:'Canadá',c1:'ca',t2:'Sudáfrica',c2:'za',date:'Dom 28 Jun',s1:1,s2:0,w:'t1'},
-   {t1:'Brasil',c1:'br',t2:'Japón',c2:'jp',date:'Lun 29 Jun',s1:2,s2:1,w:'t1'}],
-  // Pair 1 → QF[1]: Alemania/Paraguay vs P.Bajos/Marruecos
-  [{t1:'Alemania',c1:'de',t2:'Paraguay',c2:'py',date:'Lun 29 Jun',s1:1,s2:1,w:null},
-   {t1:'P.Bajos',c1:'nl',t2:'Marruecos',c2:'ma',date:'Lun 29 Jun',s1:1,s2:1,w:null}],
-  // Pair 2 → QF[2]: C.Marfil/Noruega vs Francia/Suecia
-  [{t1:'C.Marfil',c1:'ci',t2:'Noruega',c2:'no',date:'Mar 30 Jun',s1:1,s2:2,w:'t2'},
+   {t1:'P.Bajos',c1:'nl',t2:'Marruecos',c2:'ma',date:'Lun 29 Jun',s1:1,s2:1,w:'t2'}],
+  // Pair 1 → Octavo: Paraguay vs Francia (Sáb 4 Jul)
+  [{t1:'Alemania',c1:'de',t2:'Paraguay',c2:'py',date:'Lun 29 Jun',s1:1,s2:1,w:'t2'},
    {t1:'Francia',c1:'fr',t2:'Suecia',c2:'se',date:'Mar 30 Jun',s1:3,s2:0,w:'t1'}],
-  // Pair 3 → QF[3]: México/Ecuador vs Inglaterra/Congo
+  // Pair 2 → Octavo: Brasil vs Noruega (Dom 5 Jul)
+  [{t1:'Brasil',c1:'br',t2:'Japón',c2:'jp',date:'Lun 29 Jun',s1:2,s2:1,w:'t1'},
+   {t1:'C.Marfil',c1:'ci',t2:'Noruega',c2:'no',date:'Mar 30 Jun',s1:1,s2:2,w:'t2'}],
+  // Pair 3 → Octavo: México vs Inglaterra (Dom 5 Jul)
   [{t1:'México',c1:'mx',t2:'Ecuador',c2:'ec',date:'Mar 30 Jun',s1:2,s2:0,w:'t1'},
-   {t1:'Inglaterra',c1:'gb-eng',t2:'Congo RD',c2:'cd',date:'Mié 1 Jul',s1:null,s2:null,w:null}],
-  // Pair 4 → QF[4]: Bélgica/Senegal vs EEUU/Bosnia
-  [{t1:'Bélgica',c1:'be',t2:'Senegal',c2:'sn',date:'Mié 1 Jul',s1:null,s2:null,w:null},
-   {t1:'EEUU',c1:'us',t2:'Bosnia',c2:'ba',date:'Mié 1 Jul',s1:null,s2:null,w:null}],
-  // Pair 5 → QF[5]: España/Austria vs Portugal/Croacia
-  [{t1:'España',c1:'es',t2:'Austria',c2:'at',date:'Jue 2 Jul',s1:null,s2:null,w:null},
+   {t1:'Inglaterra',c1:'gb-eng',t2:'Congo RD',c2:'cd',date:'Mié 1 Jul',s1:2,s2:1,w:'t1'}],
+  // Pair 4 → Octavo: Bélgica vs EEUU (Lun 6 Jul)
+  [{t1:'Bélgica',c1:'be',t2:'Senegal',c2:'sn',date:'Mié 1 Jul',s1:3,s2:2,w:'t1'},
+   {t1:'EEUU',c1:'us',t2:'Bosnia',c2:'ba',date:'Mié 1 Jul',s1:2,s2:0,w:'t1'}],
+  // Pair 5 → Octavo: TBD vs España (Lun 6 Jul) — pendiente Portugal/Croacia
+  [{t1:'España',c1:'es',t2:'Austria',c2:'at',date:'Jue 2 Jul',s1:3,s2:0,w:'t1'},
    {t1:'Portugal',c1:'pt',t2:'Croacia',c2:'hr',date:'Jue 2 Jul',s1:null,s2:null,w:null}],
-  // Pair 6 → QF[6]: Suiza/Argelia vs Australia/Egipto
-  [{t1:'Suiza',c1:'ch',t2:'Argelia',c2:'dz',date:'Vie 3 Jul',s1:null,s2:null,w:null},
+  // Pair 6 → Octavo: TBD vs TBD — pendiente Suiza/Argelia y Australia/Egipto
+  [{t1:'Suiza',c1:'ch',t2:'Argelia',c2:'dz',date:'Jue 2 Jul',s1:null,s2:null,w:null},
    {t1:'Australia',c1:'au',t2:'Egipto',c2:'eg',date:'Vie 3 Jul',s1:null,s2:null,w:null}],
-  // Pair 7 → QF[7]: Argentina/Cabo Verde vs Colombia/Ghana
+  // Pair 7 → Octavo: Argentina vs Colombia (pendiente)
   [{t1:'Argentina',c1:'ar',t2:'Cabo Verde',c2:'cv',date:'Vie 3 Jul',s1:null,s2:null,w:null},
    {t1:'Colombia',c1:'co',t2:'Ghana',c2:'gh',date:'Vie 3 Jul',s1:null,s2:null,w:null}],
 ];
 
 // Octavos, Cuartos, Semis, Final, 3er lugar
-const QF_DATES=['Sáb 4 Jul','Sáb 4 Jul','Dom 5 Jul','Dom 5 Jul','Lun 6 Jul','Lun 6 Jul','Mar 7 Jul','Mar 7 Jul'];
 const SF_DATES=['Jue 9 Jul','Vie 10 Jul','Sáb 11 Jul','Sáb 11 Jul'];
 const SEMI_DATES=['Mar 14 Jul','Mié 15 Jul'];
+
+const QF_DEFAULT=[
+  {t1:'Canadá',c1:'ca',t2:'Marruecos',c2:'ma',date:'Sáb 4 Jul 11:00 CDT',s1:null,s2:null,w:null},
+  {t1:'Paraguay',c1:'py',t2:'Francia',c2:'fr',date:'Sáb 4 Jul 15:00 CDT',s1:null,s2:null,w:null},
+  {t1:'Brasil',c1:'br',t2:'Noruega',c2:'no',date:'Dom 5 Jul 14:00 CDT',s1:null,s2:null,w:null},
+  {t1:'México',c1:'mx',t2:'Inglaterra',c2:'gb-eng',date:'Dom 5 Jul 18:00 CDT',s1:null,s2:null,w:null},
+  {t1:'Bélgica',c1:'be',t2:'EEUU',c2:'us',date:'Lun 6 Jul 13:00 CDT',s1:null,s2:null,w:null},
+  {t1:'TBD',c1:'',t2:'España',c2:'es',date:'Lun 6 Jul 17:00 CDT',s1:null,s2:null,w:null},
+  {t1:'TBD',c1:'',t2:'TBD',c2:'',date:'Mar 7 Jul',s1:null,s2:null,w:null},
+  {t1:'TBD',c1:'',t2:'TBD',c2:'',date:'Mar 7 Jul',s1:null,s2:null,w:null},
+];
 
 let S={
   participants:[],
   teams:[
-    {name:'Canadá',code:'ca'},{name:'Brasil',code:'br'},
-    {name:'Alemania',code:'de'},{name:'P.Bajos',code:'nl'},
-    {name:'Noruega',code:'no'},{name:'Francia',code:'fr'},
+    {name:'Canadá',code:'ca'},{name:'Marruecos',code:'ma'},
+    {name:'Paraguay',code:'py'},{name:'Francia',code:'fr'},
+    {name:'Brasil',code:'br'},{name:'Noruega',code:'no'},
     {name:'México',code:'mx'},{name:'Inglaterra',code:'gb-eng'},
     {name:'Bélgica',code:'be'},{name:'EEUU',code:'us'},
     {name:'España',code:'es'},{name:'Portugal',code:'pt'},
@@ -300,7 +310,7 @@ let S={
   ],
   assignments:[],champion:'',sorteado:false,
   r32:JSON.parse(JSON.stringify(R32)),
-  qf:[0,1,2,3,4,5,6,7].map(i=>({t1:null,c1:'',t2:null,c2:'',date:QF_DATES[i],s1:null,s2:null,w:null})),
+  qf:JSON.parse(JSON.stringify(QF_DEFAULT)),
   sf:[0,1,2,3].map(i=>({t1:null,c1:'',t2:null,c2:'',date:SF_DATES[i],s1:null,s2:null,w:null})),
   semi:[0,1].map(i=>({t1:null,c1:'',t2:null,c2:'',date:SEMI_DATES[i],s1:null,s2:null,w:null})),
   final:{t1:null,c1:'',t2:null,c2:'',date:'Dom 19 Jul · MetLife NJ',s1:null,s2:null,w:null},
