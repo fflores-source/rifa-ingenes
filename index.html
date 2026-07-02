@@ -282,18 +282,26 @@ const R32 = [
 ];
 
 // Octavos, Cuartos, Semis, Final, 3er lugar
-const SF_DATES=['Jue 9 Jul','Vie 10 Jul','Sáb 11 Jul','Sáb 11 Jul'];
-const SEMI_DATES=['Mar 14 Jul','Mié 15 Jul'];
+const SF_DATES=['Jue 9 Jul 14:00 CDT','Vie 10 Jul 13:00 CDT','Sáb 11 Jul 15:00 CDT','Sáb 11 Jul 19:00 CDT'];
+const SEMI_DATES=['Mar 14 Jul 13:00 CDT','Mié 15 Jul 13:00 CDT'];
 
 const QF_DEFAULT=[
+  // Octavo 1: Canadá vs Marruecos → ganador va a Cuarto 1
   {t1:'Canadá',c1:'ca',t2:'Marruecos',c2:'ma',date:'Sáb 4 Jul 11:00 CDT',s1:null,s2:null,w:null},
+  // Octavo 2: Paraguay vs Francia → ganador va a Cuarto 1
   {t1:'Paraguay',c1:'py',t2:'Francia',c2:'fr',date:'Sáb 4 Jul 15:00 CDT',s1:null,s2:null,w:null},
+  // Octavo 3: EEUU vs Bélgica → ganador va a Cuarto 2
+  {t1:'EEUU',c1:'us',t2:'Bélgica',c2:'be',date:'Lun 6 Jul 13:00 CDT',s1:null,s2:null,w:null},
+  // Octavo 4: España vs TBD(Portugal/Croacia) → ganador va a Cuarto 2
+  {t1:'España',c1:'es',t2:'TBD',c2:'',date:'Lun 6 Jul 17:00 CDT',s1:null,s2:null,w:null},
+  // Octavo 5: Brasil vs Noruega → ganador va a Cuarto 3
   {t1:'Brasil',c1:'br',t2:'Noruega',c2:'no',date:'Dom 5 Jul 14:00 CDT',s1:null,s2:null,w:null},
+  // Octavo 6: México vs Inglaterra → ganador va a Cuarto 3
   {t1:'México',c1:'mx',t2:'Inglaterra',c2:'gb-eng',date:'Dom 5 Jul 18:00 CDT',s1:null,s2:null,w:null},
-  {t1:'Bélgica',c1:'be',t2:'EEUU',c2:'us',date:'Lun 6 Jul 13:00 CDT',s1:null,s2:null,w:null},
-  {t1:'TBD',c1:'',t2:'España',c2:'es',date:'Lun 6 Jul 17:00 CDT',s1:null,s2:null,w:null},
-  {t1:'TBD',c1:'',t2:'TBD',c2:'',date:'Mar 7 Jul',s1:null,s2:null,w:null},
-  {t1:'TBD',c1:'',t2:'TBD',c2:'',date:'Mar 7 Jul',s1:null,s2:null,w:null},
+  // Octavo 7: W(Suiza/Argelia) vs W(Colombia/Ghana) → ganador va a Cuarto 4
+  {t1:'TBD',c1:'',t2:'TBD',c2:'',date:'Mar 7 Jul 14:00 CDT',s1:null,s2:null,w:null},
+  // Octavo 8: W(Australia/Egipto) vs W(Argentina/Cabo Verde) → ganador va a Cuarto 4
+  {t1:'TBD',c1:'',t2:'TBD',c2:'',date:'Mar 7 Jul 10:00 CDT',s1:null,s2:null,w:null},
 ];
 
 let S={
@@ -647,15 +655,32 @@ async function load(){
   try{
     const r=await fetch(`https://api.jsonbin.io/v3/b/${BIN}/latest`,{headers:{'X-Master-Key':KEY}});
     if(r.ok){const d=await r.json();
-      if(d.record&&d.record.participants!==undefined){
-        S={...S,...d.record};
-        // Ensure arrays exist
-        if(!S.qf||!S.qf.length) S.qf=[0,1,2,3,4,5,6,7].map(i=>({t1:null,c1:'',t2:null,c2:'',date:QF_DATES[i],s1:null,s2:null,w:null}));
-        if(!S.sf||!S.sf.length) S.sf=[0,1,2,3].map(i=>({t1:null,c1:'',t2:null,c2:'',date:SF_DATES[i],s1:null,s2:null,w:null}));
-        if(!S.semi||!S.semi.length) S.semi=[0,1].map(i=>({t1:null,c1:'',t2:null,c2:'',date:SEMI_DATES[i],s1:null,s2:null,w:null}));
-        if(!S.final) S.final={t1:null,c1:'',t2:null,c2:'',date:'Dom 19 Jul · MetLife NJ',s1:null,s2:null,w:null};
-        if(!S.third) S.third={t1:null,c1:'',t2:null,c2:'',date:'Sáb 18 Jul',s1:null,s2:null,w:null};
-        if(!S.r32) S.r32=JSON.parse(JSON.stringify(R32));
+      const rec=d.record;
+      if(rec&&rec.participants!==undefined){
+        // Solo restaurar participantes, sorteo y equipos - los cruces base siempre del codigo
+        S.participants = rec.participants||[];
+        S.assignments  = rec.assignments||[];
+        S.champion     = rec.champion||'';
+        S.sorteado     = rec.sorteado||false;
+        S.teams        = rec.teams&&rec.teams.length?rec.teams:S.teams;
+        // R32: solo scores y winners
+        if(rec.r32) rec.r32.forEach((pair,pi)=>pair&&pair.forEach((m,mi)=>{
+          if(S.r32[pi]&&S.r32[pi][mi]&&m){
+            S.r32[pi][mi].s1=m.s1; S.r32[pi][mi].s2=m.s2; S.r32[pi][mi].w=m.w;
+          }
+        }));
+        // QF: los equipos base vienen del codigo (QF_DEFAULT), solo restaurar scores/winners y avances manuales
+        if(rec.qf) rec.qf.forEach((m,i)=>{
+          if(!S.qf[i]||!m) return;
+          S.qf[i].s1=m.s1; S.qf[i].s2=m.s2; S.qf[i].w=m.w;
+          // Solo sobreescribir TBD slots con avances manuales del admin
+          if(m.t1&&m.t1!=='TBD'&&(S.qf[i].t1==='TBD'||!S.qf[i].t1)){S.qf[i].t1=m.t1;S.qf[i].c1=m.c1||'';}
+          if(m.t2&&m.t2!=='TBD'&&(S.qf[i].t2==='TBD'||!S.qf[i].t2)){S.qf[i].t2=m.t2;S.qf[i].c2=m.c2||'';}
+        });
+        if(rec.sf)   S.sf=rec.sf;
+        if(rec.semi) S.semi=rec.semi;
+        if(rec.final)S.final=rec.final;
+        if(rec.third)S.third=rec.third;
       }
     }
   }catch(e){console.log('load err',e);}
