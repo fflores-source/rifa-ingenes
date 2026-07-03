@@ -532,12 +532,15 @@ function saveAdv(){
     if(w1&&S.sf[i]){S.sf[i].t1=w1.t;S.sf[i].c1=w1.c;}
     if(w2&&S.sf[i]){S.sf[i].t2=w2.t;S.sf[i].c2=w2.c;}
   }
-  for(let i=0;i<2;i++){
-    const w1=S.sf[i*2]?.w==='t1'?{t:S.sf[i*2].t1,c:S.sf[i*2].c1}:S.sf[i*2]?.w==='t2'?{t:S.sf[i*2].t2,c:S.sf[i*2].c2}:null;
-    const w2=S.sf[i*2+1]?.w==='t1'?{t:S.sf[i*2+1].t1,c:S.sf[i*2+1].c1}:S.sf[i*2+1]?.w==='t2'?{t:S.sf[i*2+1].t2,c:S.sf[i*2+1].c2}:null;
+  // Cruce de semis: Cuarto1 vs Cuarto3, Cuarto2(México) vs Cuarto4(Argentina)
+  const SEMI_PAIRS=[[0,2],[1,3]];
+  SEMI_PAIRS.forEach((pair,i)=>{
+    const a=pair[0], b=pair[1];
+    const w1=S.sf[a]?.w==='t1'?{t:S.sf[a].t1,c:S.sf[a].c1}:S.sf[a]?.w==='t2'?{t:S.sf[a].t2,c:S.sf[a].c2}:null;
+    const w2=S.sf[b]?.w==='t1'?{t:S.sf[b].t1,c:S.sf[b].c1}:S.sf[b]?.w==='t2'?{t:S.sf[b].t2,c:S.sf[b].c2}:null;
     if(w1&&S.semi[i]){S.semi[i].t1=w1.t;S.semi[i].c1=w1.c;}
     if(w2&&S.semi[i]){S.semi[i].t2=w2.t;S.semi[i].c2=w2.c;}
-  }
+  });
   const fw=[
     S.semi[0]?.w==='t1'?{t:S.semi[0].t1,c:S.semi[0].c1}:S.semi[0]?.w==='t2'?{t:S.semi[0].t2,c:S.semi[0].c2}:null,
     S.semi[1]?.w==='t1'?{t:S.semi[1].t1,c:S.semi[1].c1}:S.semi[1]?.w==='t2'?{t:S.semi[1].t2,c:S.semi[1].c2}:null,
